@@ -1,0 +1,14 @@
+Import
+{
+  "Strings.ad",
+  "System.ad",
+  "AppMain.ad"
+}
+
+int Main::main()
+{ 
+   var PrintfClass pfc;
+   pfc.fstr("Hello World !").pr();
+
+   return 1;
+}

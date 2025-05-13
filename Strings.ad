@@ -1,0 +1,257 @@
+
+
+
+class dllexport_a String_16
+    {
+        char _preAllocBuf[16];
+        *char _extendedBuf[];
+        int _length;
+
+    methods:
+
+        String_16();
+        String_16(&char init[]);
+        String_16(&String_16 other);
+        void print();
+        void printNoLF();
+        void append(&char str[]);
+        void append(&char str[],int pos,int anzahl);
+        void append(*char buf[]);
+        void append(&String_16 other);
+        void append(String_16* other);
+        void append(char c);
+        void append(int x);
+        void append(double d);
+        void append(longlong l);
+        void appendKurz(double d);
+        void appendHexOctet(int x);
+        void appendHex(longlong x);
+        thisreturn void append(longlong x,int base);
+
+        void assign(&char str[]);
+        void assign(char zeichen);
+
+        void assign(&String_16 anderer);
+        void assign(String_16* anderer);
+ 
+        char getAt(int x);
+        void setAt(int stelle, char zeichen);
+
+        int capacity();
+        int length();
+        void clear();
+        void clearAndReclaimMemory();
+        int lengthOf(&char str[]);
+
+        int compare(&char str[]);
+
+        int compare(&String_16 other);
+   
+
+        thisreturn void getKey(String_16* key);
+
+        int getHashCode();
+
+
+        void getExtendedBuf(*char extendedBuf[]);
+
+        int equals(&String_16 other);
+
+        int equals(&char other[]);
+
+        void toCharArray(&char feld[]);
+
+        int asNumber();
+
+        int asNumber(int radix);
+
+        longlong asNumberLL(int radix);
+
+        double asDouble();
+
+        void escape(&String_16 escaped,char escape);
+
+        void deEscape(&String_16 deescaped,char escape);
+
+        int endsWith(&char end[]);
+
+        int endsWith(&String_16 str2);
+
+        void rightOf(char divider,&String_16 oStr);
+
+        int startsWith(&char buf[]);
+
+        void subString(&String_16 oStr,int start, int end);
+
+        ~String_16();
+
+        static int isNumberChar(char c);
+
+        int hashCode();
+
+        longlong hashCodeLL();
+
+        void ersetzen(&String_16 alt,&String_16 neu,&String_16 ergebnis);
+
+        void unitTest();
+
+        int teileAuf(*String_16 spalten[],char trenner);
+
+        void wandleKleinbuchstaben();
+
+        void wandleUmlaute(&String_16 ziel );
+       
+        void ensureCapacity(int minCapacity);
+
+        
+
+        //int contains(&String substring);
+    };
+
+    //Adapter Class for Hashing with SPHT
+    class Hash_String_16
+    {
+       methods:
+         static int hash(&String_16 str);
+    };
+
+    //Adapter class for comparison in SPHT
+    class Compare_String_16
+    {
+       methods:
+         static int compare(&String_16 s1,&String_16 s2);
+    };
+
+    class Assigner_String_16
+    {
+      methods:
+         static void assign(&String_16 s1,&String_16 s2);
+    };
+
+class dllexport_a String_128
+    {
+        char _preAllocBuf[128];
+        *char _extendedBuf[];
+        int _length;
+
+    methods:
+
+        String_128();
+        String_128(&char init[]);
+        String_128(&String_128 other);
+        void print();
+        void printNoLF();
+        void append(&char str[]);
+        void append(&char str[],int pos,int anzahl);
+        void append(*char buf[]);
+        void append(&String_128 other);
+        void append(String_128* other);
+        void append(char c);
+        void append(int x);
+        void append(double d);
+        void append(longlong l);
+        void appendKurz(double d);
+        void appendHexOctet(int x);
+        void appendHex(longlong x);
+        thisreturn void append(longlong x,int base);
+
+        void assign(&char str[]);
+        void assign(char zeichen);
+
+        void assign(&String_128 anderer);
+        void assign(String_128* anderer);
+ 
+        char getAt(int x);
+        void setAt(int stelle, char zeichen);
+
+        int capacity();
+        int length();
+        void clear();
+        void clearAndReclaimMemory();
+        int lengthOf(&char str[]);
+
+        int compare(&char str[]);
+
+        int compare(&String_128 other);
+   
+
+        thisreturn void getKey(String_128* key);
+
+        int getHashCode();
+
+
+        void getExtendedBuf(*char extendedBuf[]);
+
+        int equals(&String_128 other);
+
+        int equals(&char other[]);
+
+        void toCharArray(&char feld[]);
+
+        int asNumber();
+
+        int asNumber(int radix);
+
+        longlong asNumberLL(int radix);
+
+        double asDouble();
+
+        void escape(&String_128 escaped,char escape);
+
+        void deEscape(&String_128 deescaped,char escape);
+
+        int endsWith(&char end[]);
+
+        int endsWith(&String_128 str2);
+
+        void rightOf(char divider,&String_128 oStr);
+
+        int startsWith(&char buf[]);
+
+        void subString(&String_128 oStr,int start, int end);
+
+        ~String_128();
+
+        static int isNumberChar(char c);
+
+        int hashCode();
+
+        longlong hashCodeLL();
+
+        void ersetzen(&String_128 alt,&String_128 neu,&String_128 ergebnis);
+
+        void unitTest();
+
+        int teileAuf(*String_128 spalten[],char trenner);
+
+        void wandleKleinbuchstaben();
+
+        void wandleUmlaute(&String_128 ziel );
+       
+        void ensureCapacity(int minCapacity);
+
+        
+
+        //int contains(&String substring);
+    };
+
+    //Adapter Class for Hashing with SPHT
+    class Hash_String_128
+    {
+       methods:
+         static int hash(&String_128 str);
+    };
+
+    //Adapter class for comparison in SPHT
+    class Compare_String_128
+    {
+       methods:
+         static int compare(&String_128 s1,&String_128 s2);
+    };
+
+    class Assigner_String_128
+    {
+      methods:
+         static void assign(&String_128 s1,&String_128 s2);
+    };
+

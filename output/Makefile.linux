@@ -1,0 +1,82 @@
+
+####################################################################
+#Sappeur 4.0 Makefile
+####################################################################
+
+#ls *cpp|sed "s/.cpp$/.o \\\\/g"
+OBJECTS=\
+main.o \
+ProjektCPP.o \
+mapping.o \
+determineStackMemoryNeeds.o \
+AppMain.o \
+determineStackMemoryNeeds.o \
+determStackMemory_AppMain.ai.o \
+determStackMemory_Strings.ai.o \
+determStackMemory_System.ai.o \
+determStackMemory_ZKNuetzlich.ai.o \
+placementNewClass_AlphabeticSorter.o \
+placementNewClass_AlphaEntry.o \
+placementNewClass_Assigner_String_128.o \
+placementNewClass_Assigner_String_16.o \
+placementNewClass_Benutzer_Umschalter.o \
+placementNewClass_CommandlineArgs.o \
+placementNewClass_Compare_String_128.o \
+placementNewClass_Compare_String_16.o \
+placementNewClass_Hashable4.o \
+placementNewClass_Hash_String_128.o \
+placementNewClass_Hash_String_16.o \
+placementNewClass_Hashtable4_Hashable4_KeyType4.o \
+placementNewClass_HexPrinter.o \
+placementNewClass_Input.o \
+placementNewClass_KeyType4.o \
+placementNewClass_Main.o \
+placementNewClass_MTSuperClass.o \
+placementNewClass_MultiThreadAdmin.o \
+placementNewClass_Mutex.o \
+placementNewClass_MutexInfo.o \
+placementNewClass_NullPtrClassSappeurInternal.o \
+placementNewClass_PrintfClass.o \
+placementNewClass_Semaphore.o \
+placementNewClass_SemaphoreInfo.o \
+placementNewClass_SPRFile.o \
+placementNewClass_String_128.o \
+placementNewClass_String_16.o \
+placementNewClass_SystemConstants.o \
+placementNewClass_SystemControl.o \
+placementNewClass_SystemTime.o \
+placementNewClass_test556661.o \
+placementNewClass_ThreadInfo.o \
+placementNewClass_ThreadLocalStorage.o \
+placementNewClass_ThreadLocalStorageEntry.o \
+placementNewClass_ThreadLocalStorageList.o \
+placementNewClass_ZKNuetzlich.o \
+Strings.o \
+System.o \
+ZKNuetzlich.o \
+
+
+CC = gcc
+HOMEDIR=/home/silas
+SPRDIR=${HOMEDIR}/Sappeur4x_ARM
+VPATH=${SPRDIR}/cppMapping:../
+
+INCLUDE= -I${SPRDIR}/cppMapping -I. -I..  -I/usr/include
+
+
+
+LDLIBS=-lstdc++ -lm  -std=c++17 -ltls
+.SUFFIXES: .o .cpp .ai
+OPT=-g 
+MISC_OPT=-DSPR_USE_PTHREAD_MUTEX_LOCKS=1 -DLINUX_SAPPEUR=1 -DSPR_DEBUG=1 -DSPR_PTHREAD=1 -pthread
+
+.cpp.o:
+	$(CC) $(OPT) $(MISC_OPT) -DGCC_X86 $(INCLUDE) -c $<
+
+
+
+all:$(OBJECTS)
+	$(CC) $(OPT) $(MISC_OPT) -o helloworld $^ $(LDLIBS)
+	
+clean:
+	rm *.o gauss2 
