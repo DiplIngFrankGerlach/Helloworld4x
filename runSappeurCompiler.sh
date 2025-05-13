@@ -49,49 +49,10 @@ compile AppMain.ai
 
 compile System.ai
 
-compile Strings.ai 
+compile Strings.ai
 
-compile ZKNuetzlich.ai 
+compile ZKNuetzlich.ai
 
-compile CSVLeser.ai 
-
-compile BMP_Erzeuger.ai 
-
-compile Cookie.ai 
-
-compile FunktionalRechner.ai 
-
-compile Hashtables.ai 
-
-compile Math.ai 
-
-compile Scanner.ai 
-
-compile TCP.ai 
-
-compile URLDecoder.ai 
-
-compile URLPruefer.ai 
-
-compile UnitTestHashtable.ai 
-
-compile UnitTest_hrq.ai 
-
-compile ZeitUndDatum.ai 
-
-compile http_request_parser.ai 
-
-compile shttpd.ai 
-
-compile Base64.ai 
-
-compile UnitTestBase64.ai
-
-compile SitzungsErzeuger.ai
-
-compile FranksFeistel2.ai
-
-compile SchluesselWerkzeuge.ai
 
 
 
