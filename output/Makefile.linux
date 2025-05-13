@@ -12,9 +12,11 @@ determineStackMemoryNeeds.o \
 AppMain.o \
 determineStackMemoryNeeds.o \
 determStackMemory_AppMain.ai.o \
+determStackMemory_Hashtables.ai.o \
 determStackMemory_Strings.ai.o \
 determStackMemory_System.ai.o \
 determStackMemory_ZKNuetzlich.ai.o \
+Hashtables.o \
 placementNewClass_AlphabeticSorter.o \
 placementNewClass_AlphaEntry.o \
 placementNewClass_Assigner_String_128.o \
@@ -54,7 +56,6 @@ placementNewClass_ZKNuetzlich.o \
 Strings.o \
 System.o \
 ZKNuetzlich.o \
-
 
 CC = gcc
 HOMEDIR=/home/silas
