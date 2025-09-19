@@ -58,15 +58,15 @@ System.o \
 ZKNuetzlich.o \
 
 CC = gcc
-HOMEDIR=/home/silas
-SPRDIR=${HOMEDIR}/Sappeur4x_ARM
+HOMEDIR=/home/bjafrge
+SPRDIR=${HOMEDIR}/Sappeur4x/ausg/haupt/
 VPATH=${SPRDIR}/cppMapping:../
 
 INCLUDE= -I${SPRDIR}/cppMapping -I. -I..  -I/usr/include
 
 
 
-LDLIBS=-lstdc++ -lm  -std=c++17 -ltls
+LDLIBS=-lstdc++ -lm  -std=c++17 
 .SUFFIXES: .o .cpp .ai
 OPT=-g 
 MISC_OPT=-DSPR_USE_PTHREAD_MUTEX_LOCKS=1 -DLINUX_SAPPEUR=1 -DSPR_DEBUG=1 -DSPR_PTHREAD=1 -pthread

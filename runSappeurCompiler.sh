@@ -74,3 +74,12 @@ erzeugeSizeofHeader
 # Beende den Sappeur Coordinator 
 ################################
 #killCoordinator
+
+
+###################################################################################################################
+# Pruefe C++ Dateien gegen Cache
+################################
+cd output
+./checkAgainstCache.pl
+
+
