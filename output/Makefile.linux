@@ -8,7 +8,6 @@ OBJECTS=\
 main.o \
 ProjektCPP.o \
 mapping.o \
-determineStackMemoryNeeds.o \
 AppMain.o \
 determineStackMemoryNeeds.o \
 determStackMemory_AppMain.ai.o \
@@ -37,6 +36,7 @@ placementNewClass_MTSuperClass.o \
 placementNewClass_MultiThreadAdmin.o \
 placementNewClass_Mutex.o \
 placementNewClass_MutexInfo.o \
+placementNewClass_MyMath.o \
 placementNewClass_NullPtrClassSappeurInternal.o \
 placementNewClass_PrintfClass.o \
 placementNewClass_Semaphore.o \
@@ -56,7 +56,6 @@ placementNewClass_ZKNuetzlich.o \
 Strings.o \
 System.o \
 ZKNuetzlich.o \
-
 
 CC = gcc
 HOMEDIR=/home/silas
