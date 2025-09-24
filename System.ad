@@ -1,18 +1,4 @@
-/************************************************************
-* This file is part of the Gauss Web Server project.
-* Source code can be used for any purpose, free of charge,
-* under the following conditions:
-*
-* 1.) Users will never hold the Author liable for 
-*     any defects of this software.
-* 2.) If used for safety-critical purposes, the 
-*     user must prove fitness for purpose by means
-*     of systematic testing and development according
-*     to industry standards such as the V-Model.
-*
-* Author and Copyright holder: Dipl. Ing.(BA) Frank Gerlach
-*
-************************************************************/
+
 
 class ThreadInfo multithreaded
 {
@@ -25,14 +11,8 @@ methods:
    external void  threadMain();
 };
 
-
-/*
-statische Members werden benötigt
-   -Zugriffskontrolle
-   	-Daten
-   	-Methoden
-*/
-
+ 
+/* class for easy and safe printing, similar(but more secure) as printf() in C */
 class PrintfClass 
 {
    String_16 _fstr;
@@ -43,10 +23,23 @@ methods:
    //set the format string
    //arguments are specified using the dollar ($) sign
    &PrintfClass fstr(&char str[]);
+   
    //set a string argument
    &PrintfClass sa(&char str[]);
+
    //set an integer argument
    &PrintfClass sa(int num);
+
+   //set an integer argument with base and character width
+   &PrintfClass sa(int num,int base, int numChars);
+
+   &PrintfClass sa(longlong num);
+
+   &PrintfClass saHex(char oktet);
+
+   &PrintfClass saHex(longlong number);
+
+   &PrintfClass saHex(int number);
    
    //set a double argument
    &PrintfClass sa(double num);
@@ -66,18 +59,32 @@ methods:
    
    &PrintfClass sa(char c);
    
-   
    &PrintfClass saExp(double num);
       
    //actually print the string to the console
    void pr();
+   
+   //print a verbatim string immediately
+   void pr(&char text[]);
+   
    void prNoLF();
    //void threadMain();    
 
+    
    void prHex(char x);
    
    PrintfClass();
 };
+
+class Umgebung
+{
+methods:
+   static void leseVariable(&String_16 varName,&int erfolg,&String_16 wert);
+	
+	int leseVariable(&char varName[],&String_16 wertStr);
+};
+
+enum SPRFile_Mode { SF_Readonly, SF_ReadWrite, SF_ReadWriteTruncated };
 
 
 class SPRFile
@@ -90,6 +97,15 @@ class SPRFile
 methods:
    //open a file specified by path
    SPRFile(&char path[], int readonly);
+
+   SPRFile(&String_16 pfad, int readonly);
+
+   SPRFile();
+
+   int oeffne(&String_16 dateiName,SPRFile_Mode modus);
+
+   int oeffne(&char path[], int readonly,int neueLoeschen);
+
    //get the system file handle. A negative value normally indicates
    //that the file could not be created/openend
    int systemHandle();
@@ -102,6 +118,10 @@ methods:
    //returns the number of bytes actually written
    int write(int pos,int count,&char buffer[]);
    int write(int pos,int count,*char buffer[]);
+
+   int write64(longlong pos,int count,&char buffer[]);
+
+   int schreibeAlles(*char buffer[],int stelleEingabe, int stelleAusgabe, int anzahl);
    
    //get the current size of the file
    int size();
@@ -115,7 +135,16 @@ methods:
    ~SPRFile();
    
    ///INTERNAL TEST METHODS
-   static void __test();
+   static void UnitTest();
+};
+
+class Logfile extends SPRFile
+{
+    int writePos;
+    *char buffer[];
+methods:
+    Logfile(&String_16 filename);
+    int append(&String_16 traceMessage);
 };
 
 
@@ -148,6 +177,7 @@ class SystemTime
 methods:
   //get current time in milliseconds
   longlong getMillisecondCounter();
+  void getDateTimeString(&String_16 dateTimeStringNOW);
 };
 
 class CommandlineArgs
@@ -155,6 +185,7 @@ class CommandlineArgs
 methods:
    int numberOfArguments();
    void getArgument(int idx,&String_16 arg);
+   void getArgument(int idx,&int arg);
 };
 
 class SystemConstants
@@ -170,6 +201,11 @@ class SystemControl{
  methods:
    SystemControl();
    void exit();
+
+   void uSleep(int microSeconds);
+
+   static void exitError(&char message[]);
+
 };
 
 class HexPrinter{
@@ -179,284 +215,6 @@ class HexPrinter{
 
 
 
-
-generative_function[Hashtable4](hashable,keyType)[[ 
- 
-class Hashtable4_@hashable@_@keyType@
-{ 
-     *@hashable@* _elements[];
-     int _numUsed; 
-     int _readPtr;
-     int _size;
- 
-methods: 
-    void insertInternally(@hashable@* x);
-   
-    Hashtable4_@hashable@_@keyType@(int initialCapacity);
-    
-    void insert(@hashable@* x); 
-     
-    void get(&@keyType@ key,&@hashable@* oValue); 
-    
-    int numElements();
-    
-    void getFirst(&@hashable@* oValue);
-    
-    void getNext(&@hashable@* oValue);
-    
-    void clear();    
-};    
- 
-]] 
- 
-[[  
-
-    Hashtable4_@hashable@_@keyType@::Hashtable4_@hashable@_@keyType@(int initialCapacity)
-    {
-       _numUsed=0;
-       _elements=new @hashable@*[initialCapacity];       
-    
-    }
-    
-    void Hashtable4_@hashable@_@keyType@::insert(@hashable@* x) 
-    {         
-         
-         var int minCap=cast(int,_numUsed*1.2f+2);
-         if(_elements.sz<=minCap)//grow list
-         {
-            var int newCap=_elements.sz*2;
-            var *@hashable@* oldArray[];
-            oldArray=_elements;            
-            _elements=new @hashable@*[newCap];            
-            
-            for(var int i=0;i<oldArray.sz;i++)
-            {
-               if(oldArray[i] != NULL)
-               {
-                 this.insertInternally(oldArray[i]);
-               }
-            }
-         }
-         _numUsed++;
-         this.insertInternally(x);         
-         
-    } 
-    
-    void Hashtable4_@hashable@_@keyType@::insertInternally(@hashable@* x)
-    {
-         var @keyType@* key;
-         x.getKey(key);
-         var int code=key.getHashCode();
-         code=code%_elements.sz;
-         while(_elements[code] != NULL)
-         {
-            code++;
-            code=code%_elements.sz;
-         }
-         _elements[code]=x;         
-    }
-     
-    void Hashtable4_@hashable@_@keyType@::get(&@keyType@ key,&@hashable@* oValue)
-    {
-        var int code=key.getHashCode();
-        code=code%_elements.sz;
-        var int searching=1;
-        do{
-           if(_elements[code] != NULL)
-           {
-              var @keyType@* key2;
-              _elements[code].getKey(key2);
-              if(key2.compare(key)==1)
-              {
-                 oValue=_elements[code];
-                 searching=0;
-              }
-           }
-           code++;
-           code=code%_elements.sz;
-        }
-        while((_elements[code] != NULL) && (searching==1));        
-    }
-    
-    int Hashtable4_@hashable@_@keyType@::numElements()
-    {
-       return _numUsed;
-    }
-    
-    void Hashtable4_@hashable@_@keyType@::getFirst(&@hashable@* oValue)
-    {
-       _readPtr=0;
-       this.getNext(oValue);
-    }
-    
-    void Hashtable4_@hashable@_@keyType@::getNext(&@hashable@* oValue)
-    {
-       var int stepping=1;
-       while(( _readPtr<_elements.sz) && (stepping == 1))
-       {
-          if(_elements[_readPtr] == NULL)
-          {
-             _readPtr++;
-             
-          }
-          else
-          {
-            stepping=0;
-          }
-       }
-       if(_readPtr<_elements.sz)
-       {
-          oValue=_elements[_readPtr];
-          _readPtr++;
-       }
-       else
-       {
-          oValue=NULL;
-       } 
-    }
-
-    void Hashtable4_@hashable@_@keyType@::clear()
-    {
-       var int i=0;
-       for(i=0; i < _elements.sz; i++)
-       {
-          _elements[i] = NULL;
-       }         
-    }
-]] 
-
-generative_function[ValHashtable](hashable,keyType)[[ 
- 
-class ValHashtable_@hashable@_@keyType@
-{ 
-     *@hashable@ _elements[];
-     int _numUsed; 
-     int _readPtr;
-      
- 
-methods: 
-    void insertInternally(&@hashable@ x);
-   
-    ValHashtable_@hashable@_@keyType@(int initialCapacity);
-    
-    void insert(&@hashable@ x); 
-     
-    void get(&@keyType@ key,&@hashable@ oValue); 
-    
-    int numElements();
-    
-    void getFirst(&@hashable@ oValue);
-    
-    void getNext(&@hashable@ oValue);
-};    
- 
-]] 
- 
-[[    
-
-    ValHashtable_@hashable@_@keyType@::ValHashtable_@hashable@_@keyType@(int initialCapacity)
-    {
-       _numUsed=0;
-       _elements=new @hashable@[initialCapacity];       
-    }
-    
-    void ValHashtable_@hashable@_@keyType@::insert(&@hashable@ x) 
-    {         
-         
-         var int minCap=cast(int,_numUsed*1.2f+2);
-         if(_elements.sz<=minCap)//grow list
-         {
-            var int newCap=_elements.sz*2;
-            var *@hashable@ oldArray[];
-            oldArray=_elements;            
-            _elements=new @hashable@[newCap];            
-            
-            for(var int i=0;i<oldArray.sz;i++)
-            {
-               if(oldArray[i].isEmpty() == 0)
-               {
-                 this.insertInternally(oldArray[i]);
-               }
-            }
-         }
-         _numUsed++;
-         this.insertInternally(x);         
-    } 
-    
-    void ValHashtable_@hashable@_@keyType@::insertInternally(&@hashable@ x)
-    {
-         var @keyType@ key;
-         x.getKey(key);
-         var int code=key.getHashCode();
-         code=code%_elements.sz;
-         while(_elements[code].isEmpty() == 0)
-         {
-            code++;
-            code=code%_elements.sz;
-         }
-         _elements[code].assign(x);         
-    }
-     
-    void ValHashtable_@hashable@_@keyType@::get(&@keyType@ key,&@hashable@ oValue)
-    {
-        var int code=key.getHashCode();
-        code=code%_elements.sz;
-       
-        do{
-           if(_elements[code].isEmpty() == 0)
-           {
-              var @keyType@ key2;
-              _elements[code].getKey(key2);
-              if(key2.compare(key)==1)
-              {
-                 oValue.assign(_elements[code]);
-                 return;
-              }
-           }
-           code++;
-           code=code%_elements.sz;
-        }
-        while(_elements[code].isEmpty() == 0);        
-        oValue.setEmpty();
-    }
-    
-    int ValHashtable_@hashable@_@keyType@::numElements()
-    {
-       return _numUsed;
-    }
-    
-    void ValHashtable_@hashable@_@keyType@::getFirst(&@hashable@ oValue)
-    {
-       _readPtr=0;
-       this.getNext(oValue);
-    }
-    
-    void ValHashtable_@hashable@_@keyType@::getNext(&@hashable@ oValue)
-    {
-       var int stepping=1;
-       while(( _readPtr<_elements.sz) && (stepping == 1))
-       {
-          if(_elements[_readPtr].isEmpty() == 1)
-          {
-             _readPtr++;
-             
-          }
-          else
-          {
-            stepping=0;
-          }
-       }
-       if(_readPtr<_elements.sz)
-       {
-          oValue.assign(_elements[_readPtr]);
-          _readPtr++;
-       }
-       else
-       {
-          oValue.setEmpty();
-       } 
-    }
-]] 
 
 
 generative_function[GrowingList](ElementType)
@@ -471,6 +229,12 @@ class GrowingList_@ElementType@
 methods: 
     GrowingList_@ElementType@(int initialSize);
     void add(@ElementType@* x);
+
+    //next three methods are for Stack-Style operation
+    void push(@ElementType@* x);
+    void pop(&@ElementType@* x);
+    void peek(&@ElementType@* x);
+
     void getAt(int idx,&@ElementType@* x);
     int length();
 };    
@@ -498,6 +262,43 @@ void GrowingList_@ElementType@::add(@ElementType@* x)
    }       
    _elements[_numUsed]=x;
    _numUsed++;
+}
+
+void GrowingList_@ElementType@::push(@ElementType@* x)
+{
+   this.add(x);
+}
+
+void GrowingList_@ElementType@::pop(&@ElementType@* x)
+{
+   if( _numUsed > 0)
+   {
+       x = _elements[_numUsed - 1];
+       _elements[_numUsed - 1] = NULL;
+       _numUsed = _numUsed - 1;
+   }
+   else
+   {
+      var PrintfClass pfc;
+      pfc.fstr("Stack is empty in GrowingList_@ElementType@::pop").pr();
+      var SystemControl sc;
+      sc.exit(); 
+   } 
+}
+
+void GrowingList_@ElementType@::peek(&@ElementType@* x)
+{
+   if( _numUsed > 0)
+   {
+       x = _elements[_numUsed - 1];
+   }
+   else
+   {
+      var PrintfClass pfc;
+      pfc.fstr("Stack is empty in GrowingList_@ElementType@::peek").pr();
+      var SystemControl sc;
+      sc.exit(); 
+   } 
 }
 
 void GrowingList_@ElementType@::getAt(int idx,&@ElementType@* x)
@@ -540,10 +341,6 @@ class Hashable4{
 };
 
 
-class test556661{
-  generate Hashtable4(Hashable4,KeyType4);
-   methods:
-};
 
 class MTSuperClass multithreaded
 {
@@ -561,10 +358,9 @@ class MultiThreadAdmin
 class MutexInfo multithreaded
 {
   inline_cpp[[
-    #ifdef WIN32_X86
+    #ifdef WIN32
       HANDLE _win_mutex;
-    #endif
-    #if defined(GCC_X86) || defined(__clang__)
+    #else
       pthread_mutex_t* _pmutex;
     #endif
   ]]
@@ -577,10 +373,9 @@ class Mutex{
     MutexInfo* _mi;
     int _isOwner;
 inline_cpp[[
-    #ifdef WIN32_X86 
+    #ifdef WIN32
       HANDLE _win_mutex;
-    #endif
-    #if defined(GCC_X86) || defined(__clang__)
+    #else
       pthread_mutex_t* _pmutex;
     #endif
 ]]
@@ -596,10 +391,9 @@ methods:
 class SemaphoreInfo multithreaded
 {
   inline_cpp[[
-    #ifdef WIN32_X86
-      HANDLE _win_mutex;
-    #endif
-    #if defined(GCC_X86) || defined(__clang__)
+    #ifdef WIN32
+      HANDLE _win_sema;
+    #else
       sem_t _sem_t;
     #endif
   ]]
@@ -612,10 +406,9 @@ class Semaphore{
     SemaphoreInfo* _si;
     int _isOwner;
 inline_cpp[[
-    #ifdef WIN32_X86 
-      HANDLE _win_mutex;
-    #endif
-    #if defined(GCC_X86) || defined(__clang__)
+    #ifdef WIN32
+      HANDLE _win_sema;
+    #else
       sem_t* _sem_t;
     #endif
 ]]
