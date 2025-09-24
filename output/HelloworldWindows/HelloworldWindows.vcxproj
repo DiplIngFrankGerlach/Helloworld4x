@@ -45,7 +45,6 @@
     <ClCompile Include="..\placementNewClass_HexPrinter.cpp" />
     <ClCompile Include="..\placementNewClass_Input.cpp" />
     <ClCompile Include="..\placementNewClass_KeyType4.cpp" />
-    <ClCompile Include="..\placementNewClass_Logfile.cpp" />
     <ClCompile Include="..\placementNewClass_Main.cpp" />
     <ClCompile Include="..\placementNewClass_MTSuperClass.cpp" />
     <ClCompile Include="..\placementNewClass_MultiThreadAdmin.cpp" />

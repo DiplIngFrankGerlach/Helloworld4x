@@ -81,9 +81,6 @@
     <ClCompile Include="..\placementNewClass_KeyType4.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\placementNewClass_Logfile.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="..\placementNewClass_Main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>

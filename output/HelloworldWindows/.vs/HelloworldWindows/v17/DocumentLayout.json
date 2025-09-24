@@ -3,13 +3,16 @@
   "WorkspaceRootPath": "C:\\cygwin64\\home\\bjafrge\\Helloworld4x\\output\\HelloworldWindows\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{985390D6-0720-41F5-AE0D-FA297EFB4D6F}|HelloworldWindows.vcxproj|C:\\cygwin64\\home\\bjafrge\\Helloworld4x\\output\\AppMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{985390D6-0720-41F5-AE0D-FA297EFB4D6F}|HelloworldWindows.vcxproj|C:\\cygwin64\\home\\bjafrge\\Helloworld4x\\output\\System.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{985390D6-0720-41F5-AE0D-FA297EFB4D6F}|HelloworldWindows.vcxproj|C:\\cygwin64\\home\\bjafrge\\Helloworld4x\\ProjektIncludes.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{985390D6-0720-41F5-AE0D-FA297EFB4D6F}|HelloworldWindows.vcxproj|C:\\PROGRAM FILES (X86)\\WINDOWS KITS\\10\\INCLUDE\\10.0.26100.0\\UM\\WINNT.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um\\winnt.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -31,7 +34,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "AppMain.cpp",
+              "DocumentMoniker": "C:\\cygwin64\\home\\bjafrge\\Helloworld4x\\output\\AppMain.cpp",
+              "RelativeDocumentMoniker": "..\\AppMain.cpp",
+              "ToolTip": "C:\\cygwin64\\home\\bjafrge\\Helloworld4x\\output\\AppMain.cpp",
+              "RelativeToolTip": "..\\AppMain.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-09-24T09:45:32.005Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "ProjektIncludes.h",
               "DocumentMoniker": "C:\\cygwin64\\home\\bjafrge\\Helloworld4x\\ProjektIncludes.h",
               "RelativeDocumentMoniker": "..\\..\\ProjektIncludes.h",
@@ -39,25 +55,24 @@
               "RelativeToolTip": "..\\..\\ProjektIncludes.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-09-24T09:06:54.856Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-24T09:06:54.856Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "System.cpp",
               "DocumentMoniker": "C:\\cygwin64\\home\\bjafrge\\Helloworld4x\\output\\System.cpp",
               "RelativeDocumentMoniker": "..\\System.cpp",
               "ToolTip": "C:\\cygwin64\\home\\bjafrge\\Helloworld4x\\output\\System.cpp",
               "RelativeToolTip": "..\\System.cpp",
-              "ViewState": "AgIAABkHAAAAAAAAAADwvygHAAADAAAAAAAAAA==",
+              "ViewState": "AgIAADkHAAAAAAAAAAAjwD4HAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-09-24T09:04:37.836Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "winnt.h",
               "DocumentMoniker": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um\\winnt.h",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um\\winnt.h",
