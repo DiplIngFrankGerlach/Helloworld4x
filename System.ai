@@ -1,15 +1,14 @@
-Import
-{
+Import{
   "Strings.ad",
-  "AlphabeticSorter.ad",
-  "System.ad"
+  "System.ad",
+  "AlphabeticSorter.ad"
 }
-
+//File Version:2.1
    
     
 ThreadInfo::ThreadInfo()
 {
-  _threadID=cast(longlong,-1);
+  _threadID=cast(longlong, -1);
 }
 
 longlong ThreadInfo::getThreadID()
@@ -22,7 +21,7 @@ void ThreadInfo::threadMain(){}
 void ThreadInfo::join()
 {
      inline_cpp[[
-           #ifdef WIN32_X86
+           #ifdef WIN32
            WaitForSingleObject((HANDLE)_threadID,INFINITE);
            #endif
            #ifdef SPR_PTHREAD 
@@ -64,11 +63,74 @@ void ThreadInfo::join()
    return thisref;
 }
 
+
+&PrintfClass PrintfClass::saHex(char c)
+{
+   var char buffer[3];
+   var int n = cast(int ,c);
+   n = n & 0xFF;
+   inline_cpp[[
+      snprintf(buffer._array,3,"%.2x",n);
+   ]]
+   this.sa(buffer);
+   return thisref;
+}
+
+&PrintfClass PrintfClass::saHex(longlong number)
+{
+   var char buffer[17];
+   inline_cpp[[
+      snprintf(buffer._array,17,"%.16llx",(unsigned long long)number);
+   ]]
+   this.sa(buffer);
+   return thisref;
+}
+
+&PrintfClass PrintfClass::saHex(int number)
+{
+   var char buffer[9];
+   inline_cpp[[
+      snprintf(buffer._array,9,"%.8x",number);
+   ]]
+   this.sa(buffer);
+   return thisref;
+}
+
 &PrintfClass PrintfClass::sa(int num)
 {
-   var char buf[128];
+   var char buf[16];
    inline_cpp[[
-       sprintf(buf._array,"%i",num);
+       snprintf(buf._array,16,"%i",num);
+   ]]
+   this.sa(buf);
+   return thisref;
+}
+
+//set an integer argument with base and character width
+//base can be 36 at max
+&PrintfClass PrintfClass::sa(int num,int base, int numChars)
+{
+   var String_16 zk;
+   zk.append(cast(longlong,num),base);
+   var String_16 zkWithLeadingNull;
+   var int anzFehlend = numChars - zk.length();
+   for(var int i=0; i < anzFehlend; i++)
+   {
+       zkWithLeadingNull.append('0');
+   }
+   zkWithLeadingNull.append(zk);
+   this.sa(zkWithLeadingNull);
+   return thisref;
+    
+}
+
+
+
+&PrintfClass PrintfClass::sa(longlong num)
+{
+   var char buf[20];
+   inline_cpp[[
+       snprintf(buf._array,20,"%lli",num);
    ]]
    this.sa(buf);
    return thisref;
@@ -77,40 +139,19 @@ void ThreadInfo::join()
 //set a String_16 argument
 &PrintfClass PrintfClass::sa(&String_16 str)
 {
-     var char buffer[16];
-     if(str.length()<16)
-     {         
-         var int i;
-         for(i=0;i<str.length();i++)
-         {
-            buffer[i]=str.getAt(i);
-         }
-         buffer[i]='\0';
-         this.sa(buffer);
-     }
-     else
+     if( bufferDyn.sz <= str.length() )
      {
-        //tubtodo: make more efficient
-        //
-        var int strP1 = str.length() + 1;
-        if( bufferDyn.sz < strP1 )
-        {
-            var int newSize = str.length()+1;
-            var int bds2 = bufferDyn.sz*2;
-            if( newSize < bds2 )
-            {
-                newSize = bds2;
-            }
+            var int newSize = (str.length()+1)*2;
             bufferDyn=new char[newSize];        
-        }
-        var int i;
-        for(i=0;i<str.length();i++)
-        {
-            bufferDyn[i]=str.getAt(i);
-        }
-        bufferDyn[i]='\0';
-        this.sa(bufferDyn);
      }
+     var int i;
+     for(i=0;i<str.length();i++)
+     {
+            bufferDyn[i]=str.getAt(i);
+     }
+     bufferDyn[i]='\0';
+     this.sa(bufferDyn);
+
      return thisref;
 }
 
@@ -125,9 +166,9 @@ void ThreadInfo::join()
 
 &PrintfClass PrintfClass::sa(float num)
 {
-   var char buf[128];
+   var char buf[32];
    inline_cpp[[
-      sprintf(buf._array,"%f",num);
+      snprintf(buf._array,32,"%.9g",num);
    ]]
    this.sa(buf);
    return thisref;
@@ -135,9 +176,9 @@ void ThreadInfo::join()
 
 &PrintfClass PrintfClass::sa(double num)
 {
-   var char buf[128];
+   var char buf[32];
    inline_cpp[[
-      sprintf(buf._array,"%.10f",num);
+      snprintf(buf._array,32,"%.17g",num);
    ]]
    this.sa(buf);
    return thisref;
@@ -159,9 +200,9 @@ void ThreadInfo::join()
 
 &PrintfClass PrintfClass::saExp(double num)
 {
-   var char buf[128];
+   var char buf[32];
    inline_cpp[[
-      sprintf(buf._array,"%1.8e",num);
+      snprintf(buf._array,32,"%1.8e",num);
    ]]
    this.sa(buf);
    return thisref;
@@ -173,8 +214,8 @@ void PrintfClass::pr()
      var int lFstr=_fstr.length();
      while(lFstr > _fstrIdx)
      {
-   	 _outBuf.append(_fstr.getAt(_fstrIdx));
-   	 _fstrIdx++;
+       _outBuf.append(_fstr.getAt(_fstrIdx));
+       _fstrIdx++;
      }
      _outBuf.print();
 }
@@ -184,8 +225,8 @@ void PrintfClass::prNoLF()
      var int lFstr=_fstr.length();
      while(lFstr > _fstrIdx)
      {
-   	 _outBuf.append(_fstr.getAt(_fstrIdx));
-   	 _fstrIdx++;
+       _outBuf.append(_fstr.getAt(_fstrIdx));
+       _fstrIdx++;
      }
      _outBuf.printNoLF();
 }
@@ -197,6 +238,11 @@ void PrintfClass::prHex(char x)
    ]] 
 }
 
+void PrintfClass::pr(&char text[])
+{
+   this.fstr(text).pr();
+}
+
 
 
 
@@ -204,7 +250,7 @@ void ThreadLocalStorage::getEntry(int id,&ThreadLocalStorageEntry* ret)
 {
     var ThreadLocalStorageList* list=NULL;
     inline_cpp[[
-          #ifdef WIN32_X86
+          #ifdef WIN32
           list=(ThreadLocalStorageList*)TlsGetValue(__spr_tls);
           #endif
           #ifdef SPR_PTHREAD
@@ -218,7 +264,7 @@ void ThreadLocalStorage::setEntry(int id,ThreadLocalStorageEntry* entry)
 {
     var ThreadLocalStorageList* list=NULL;
     inline_cpp[[
-          #ifdef WIN32_X86
+          #ifdef WIN32
           list=(ThreadLocalStorageList*)TlsGetValue(__spr_tls);
           #endif
           #ifdef SPR_PTHREAD
@@ -232,6 +278,69 @@ void ThreadLocalStorage::setEntry(int id,ThreadLocalStorageEntry* entry)
 //open an existing file specified by path
 SPRFile::SPRFile(&char path[],int readonly)
 {
+   _handle = -1;
+   _validBytes=0;
+   _readPtr=0;
+   _fpos=0;
+   
+   this.oeffne(path,readonly,0);
+}
+
+//open an existing file specified by path
+SPRFile::SPRFile(&String_16 pfad,int readonly)
+{
+   _handle = -1;
+   _validBytes=0;
+   _readPtr=0;
+   _fpos=0;
+   
+   var char puffer[400];
+   pfad.toCharArray(puffer);
+   this.oeffne(puffer,readonly,0);
+}
+
+
+//open an existing file specified by path
+SPRFile::SPRFile()
+{
+   _handle = -1;
+   _validBytes=0;
+   _readPtr=0;
+   _fpos=0;   
+}
+
+int SPRFile::oeffne(&String_16 dateiName,SPRFile_Mode modus)
+{
+   this.close();
+   var char puffer[400];
+   dateiName.toCharArray(puffer);
+   switch(modus)
+   {
+      case SF_Readonly: 
+          {
+              return this.oeffne(puffer,1,0);
+          };
+          break;
+      case SF_ReadWrite:
+          {
+              return this.oeffne(puffer,0,0);
+          };
+          break;
+      case SF_ReadWriteTruncated: 
+          {
+              return this.oeffne(puffer,0,1);
+          };
+          break;
+   }
+   return -1;
+}
+
+
+
+//open an existing file specified by path
+int SPRFile::oeffne(&char path[],int readonly,int neueLoeschen)
+{
+    this.close();
     inline_cpp[[
         if( readonly != 0)
         {
@@ -239,14 +348,20 @@ SPRFile::SPRFile(&char path[],int readonly)
         }
         else
         {
-            _handle=_open(path._array,O_RDWR|O_CREAT|O_BINARY,0x222);
+            int flags = O_RDWR|O_CREAT|O_BINARY;
+            if( neueLoeschen == 1 )
+            {
+               flags = flags | O_TRUNC;
+            }
+            _handle=_open(path._array,flags,0700);
         }
         if(_handle<0)
         {
-           //perror("SPRFile::SPRFile() 1");
            //printf("filename:%s\n",path._array);
+           return 0;
         }
     ]]
+    return 1;
 }
    
 //get the system file handle. A negative value normally indicates
@@ -263,8 +378,10 @@ int SPRFile::read(int pos,int count,&char buffer[])
    var int ret;
    inline_cpp[[
      _lseek(_handle,pos,SEEK_SET);
-     if(buffer._sz<count)
+     if(buffer._sz < count)
+     {
        count=buffer._sz;
+     }
      ret=_read(_handle,buffer._array,count);//no ampersand here !!
    ]]
    return ret;
@@ -273,33 +390,45 @@ int SPRFile::read(int pos,int count,&char buffer[])
 int SPRFile::read(int pos,int count,*char buffer[])
 {
    if(_handle<0){return _handle;}
-   if(buffer == NULL){return -1;}
+   if(buffer == NULL){return  -1;}
    var int ret;
    inline_cpp[[
      _lseek(_handle,pos,SEEK_SET);
-     if(buffer._theObject->_sz<count)
+     if(buffer._theObject->_sz < count)
+     {
        count=buffer._theObject->_sz;
+     }
      ret=_read(_handle,&buffer._theObject->_array,count);
    ]]
    return ret;
 }
    
 //write 'count' bytes at position 'pos' into 'buffer'
-//returns the number of bytes actually written
+//returns the number of bytes actually written, if successful
+//        a negative number if an error occured
    
 int SPRFile::write(int pos,int count,&char buffer[])
 {
    if(_handle<0){return _handle;}
    var int ret;
+   var int oktetsGeschrieben = 0;
    inline_cpp[[
-     //unfinished _lseek(_handle,pos,SEEK_SET);
-     if(buffer._sz<count)
+     if(_lseek(_handle,pos,SEEK_SET)!=pos)
      {
-       count=buffer._sz;
+        perror("SPRFile::write()/lseek");
+        return -1;
      }
-     //unfinished ret=_write(_handle,buffer._array,count);
+     while(oktetsGeschrieben < count )
+     {
+        ret=_write(_handle,buffer._array,count);
+        if( ret > 0 )
+        {
+           oktetsGeschrieben = oktetsGeschrieben + ret;
+        }
+        else { return -1;}
+     }
    ]]      
-   return ret;
+   return oktetsGeschrieben;
 }
 
 int SPRFile::write(int pos,int count,*char buffer[])
@@ -310,7 +439,7 @@ int SPRFile::write(int pos,int count,*char buffer[])
    }
    if(buffer==NULL)
    {
-       return -1;
+       return  -1;
    }
    var int ret;
    inline_cpp[[
@@ -325,6 +454,72 @@ int SPRFile::write(int pos,int count,*char buffer[])
      ret=_write(_handle,buffer._theObject->_array,count);
    ]]      
    return ret;
+}
+
+//write 'count' bytes at position 'pos' into 'buffer'
+//returns the number of bytes actually written, if successful
+//        a negative number if an error occured
+
+int SPRFile::write64(longlong pos,int count,&char buffer[])
+{
+   if(_handle<0){return _handle;}
+   var int ret;
+   var int oktetsGeschrieben = 0;
+   inline_cpp[[
+     #if defined(__CYGWIN__) || defined(WIN32)
+        cerr << "SPRFile::write64() not supported on cygwin or windows" << endl;
+        exit(-1);
+     #else
+     if(::lseek64(_handle,pos,SEEK_SET)!=pos)
+     {
+        perror("SPRFile::write64()/lseek");
+        return -1;
+     }
+     #endif
+     while(oktetsGeschrieben < count )
+     {
+        ret=_write(_handle,buffer._array,count);
+        if( ret > 0 )
+        {
+           oktetsGeschrieben = oktetsGeschrieben + ret;
+        }
+        else { return -1;}
+     }
+   ]]
+   return oktetsGeschrieben;
+}
+
+int SPRFile::schreibeAlles(*char buffer[],int stelleEingabe, int stelleAusgabe, int anzahl)
+{
+    var int summeGeschrieben = 0;
+    var int ret;
+    do
+    {
+       inline_cpp[[
+         if(_lseek(_handle,stelleAusgabe,SEEK_SET) != stelleAusgabe)
+         {
+            perror("SPRFile::write()/lseek");
+            return 0;
+         }
+         if(buffer._theObject->_sz<(anzahl+stelleEingabe))
+         {
+            return 0;
+         }
+         ret = _write(_handle,
+                      buffer._theObject->_array+stelleEingabe+summeGeschrieben,
+                      anzahl-stelleEingabe-summeGeschrieben);
+         if( ret > 0 )
+         {
+            summeGeschrieben += ret;
+         }
+       ]]
+     }
+     while( (ret > 0) && (summeGeschrieben < anzahl) );
+     if( summeGeschrieben < anzahl) 
+     {
+        return 0;
+     }
+     return 1;
 }
    
 //get the current size of the file
@@ -349,7 +544,7 @@ void SPRFile::close()
        return;
    }
    inline_cpp[[ _close(_handle);]]
-   _handle = -1;
+   _handle =  -1;
 }
 
 SPRFile::~SPRFile()
@@ -360,25 +555,38 @@ SPRFile::~SPRFile()
 /* read a line from the file and return 1 if successful, < 0 otherwise */
 int SPRFile::readLine(&String_16 oLine)
 {
+    oLine.clear();
     var char c;
     do
     {
        if(this.readChar(c)!=1)
        {
-          return -1;//todo: pruefen, on das eine schoene Schnittstelle ist
+           if(oLine.length() == 0)
+           { 
+              return 0;//ende der Datei
+           }
+           else
+           {
+              return 1;//ende der Datei
+           }
        }
-       if(c!= 13)
+       if(c == '\n') 
+       {
+           return 1;
+       }
+       
+       if(c != 13)
        { 
           oLine.append(c);
        }
        else 
        {
           this.readChar(c);
-          if(c!='\n')
+          if(c != '\n')
           {
               return -2;
           }
-          return oLine.length();
+          return 1;
        }
     }
     while(1==1);
@@ -394,19 +602,19 @@ int SPRFile::readChar(&char out)
        _readPtr=0;
        _fpos=0;
     }
-    if(_validBytes==_readPtr)
+    if(_validBytes <= _readPtr)
     {
        _validBytes=this.read(_fpos,_readBuffer.sz,_readBuffer);
-       if(_validBytes==0)
+       if(_validBytes == 0)
        {
           return 0;
        }
-       if(_validBytes<0)
+       if(_validBytes < 0)
        {
-          return -1;
+          return  -1;
        }
-       _readPtr=0;
-       _fpos=_fpos+_validBytes;
+       _readPtr = 0;
+       _fpos = _fpos + _validBytes;
     }
     out=_readBuffer[_readPtr];
     _readPtr++;
@@ -415,54 +623,91 @@ int SPRFile::readChar(&char out)
    
    
    
-void SPRFile::__test()
+void SPRFile::UnitTest()
 {   
     var PrintfClass pfc;
-    var SPRFile f("c:\\temp\\spr_test_file.txt",0);
-    f.write(0,10,"0123456789");
-    if(f.size()!=10){pfc.fstr("SPRFile::__test() step 1 failed$\n").sa("").pr();}
+    var SPRFile f;
+    f.oeffne("/tmp/spr_test_file.txt",0,1);//Datei auf Laenge Null setzen, falls vorhanden
+    
+    f.write(0,10,"0123456789");    
+    if(f.size() != 10){ pfc.pr("SPRFile::UnitTest() step 1 failed"); return; }
+    
     f.write(10,10,"0123456789");       
-    if(f.size()!=20){pfc.fstr("SPRFile::__test() step 2 failed$\n").sa("").pr();}
-    for(var int i=0;i<1000;i++)
+    
+    if(f.size() != 20){ pfc.pr("SPRFile::UnitTest() step 2 failed"); return; }
+    
+    for(var int i=0;i < 1000;i++)
     {
         f.write(i*20+20,20,"abcdefghijklmnopqrst");
     }
-    if(f.size()!=20020)
+    if(f.size() != 20020)
     {
-        pfc.fstr("SPRFile::__test() step 3 failed$\n").sa("").pr();
+        pfc.pr("SPRFile::UnitTest() step 3 failed");
+        return;
     }
     
-    for(var int i=0;i<10;i++)
+    for(var int i=0;i < 10;i++)
     {
        var char buf[2];
        f.read(i,1,buf);
        var char c=cast(char,i+cast(int,'0'));
        if(buf[0] != c)
        {
-          pfc.fstr("SPRFile::__test() step 4 failed$\n").sa("").pr();
+          pfc.fstr("SPRFile::UnitTest() step 4 failed").pr();
        }
     }
-    for(var int i=0;i<10;i++)
+    for(var int i=0;i < 10;i++)
     {
        var char buf[2];
        f.read(i+10,1,buf);
        var char c=cast(char,i+cast(int,'0'));
        if(buf[0] != c)
        {
-           pfc.fstr("SPRFile::__test() step 5 failed$\n").sa("").pr();
+           pfc.fstr("SPRFile::UnitTest() step 5 failed").pr();
        }
     }
-    for(var int i=0;i<1000;i++)
+    for(var int i=0;i < 1000;i++)
     {
         var char buf[21];
-        f.read(i*20+20,20,buf);
+        var int ret = f.read(i*20+20,20,buf);
         buf[20]='\0';
         var String_16 str(buf);
-        if(str.compare("abcdefghijklmnopqrst")!=0)
+        
+        // pfc.fstr("SPRFile::UnitTest() step 6 DEBUG: $ $").sa(ret).sa(buf).pr();
+        
+        if(str.compare("abcdefghijklmnopqrst") != 1)
         {
-           pfc.fstr("SPRFile::__test() step 6 failed$\n").sa("").pr();
+           pfc.fstr("SPRFile::UnitTest() step 6 failed").pr();
+           return;
         }
     }
+    pfc.pr("SPRFile::UnitTest() erfolgreich\n");
+}
+
+
+Logfile::Logfile(&String_16 filename)
+{
+   this.oeffne(filename,SF_ReadWriteTruncated);
+   writePos = 0;
+   buffer = new char[100];
+}
+
+int Logfile::append(&String_16 traceMessage)
+{
+    var int l = traceMessage.length();
+    if(buffer.sz < l)
+    {
+       buffer = new char[l];
+    }
+    for(var int i=0; i < l; i++)
+    {
+       buffer[i] = traceMessage.getAt(i);
+    }
+    
+    var int ret =  this.write(writePos,l,buffer);
+    writePos = writePos + l;
+
+    return ret;
 }
    
    
@@ -472,23 +717,21 @@ AlphabeticSorter::AlphabeticSorter()
   
 }
 
-//0== equal, 1==true, -1==false 
+//0== equal, 1==true,  -1==false 
 int AlphabeticSorter::isBelow(&char a[],&char b[])
 {
-  var PrintfClass pfc;
-  pfc.fstr("AlphabeticSorter::isBelow( $, $)").sa(a).sa(b).pr();
   for(var int i=0;(i<a.sz) && (i<b.sz);i++)
   {
       if(a[i] != b[i])
       {
          var int delta=this.ordinal(a[i])-this.ordinal(b[i]);         
          if(delta>0){return 1;}
-         if(delta<0){return -1;}
+         if(delta<0){return  -1;}
       }
   }
   var int deltaSz=a.sz-b.sz;
   if(deltaSz==0){return 0;}
-  if(deltaSz<0){return -1;}  
+  if(deltaSz<0){return  -1;}  
   return 1;
 }
 
@@ -499,13 +742,13 @@ int AlphabeticSorter::isBelow(String_16* a,String_16* b)
       if(a.getAt(i) != b.getAt(i))
       {
          var int delta=this.ordinal(a.getAt(i))-this.ordinal(b.getAt(i));         
-         if(delta>0){return 1;}
+         if(delta>0){return  1;}
          if(delta<0){return -1;}
       }
   }
   var int deltaSz=a.length()-b.length();
-  if(deltaSz==0){return 0;}
-  if(deltaSz<0){return -1;}  
+  if(deltaSz==0){return  0;}
+  if(deltaSz<0){return  -1;}  
   return 1;
 }
 
@@ -551,7 +794,7 @@ int AlphabeticSorter::ordinal(char c)
        case '7':{return 33;};
        case '8':{return 34;};
        case '9':{return 35;};       
-       default:{return -1;};
+       default:{return  -1;};
    }
    return 1;
 }
@@ -573,27 +816,27 @@ void AlphabeticSorter::qsort(String_16* wordlist[],
    var int lower=lowerBound;
    var int upper=upperBound - 1;
    
-   while(lower <= upper)
+   while(lower<=upper)
    {
         //scan up
-   	while((lower<=upper) && (this.isAboveOrEqualPivot(wordlist,lower,pivot)<=0) )
-   	{		   
-   	   lower++;		   
-   	}
-   			
-   	//scan down
-   	while((upper >= lower) && (this.isAboveOrEqualPivot(wordlist,upper,pivot)>=0)  )
-   	{
-   	   upper=upper - 1;
-   	}
-   			
-   	if(lower < upper)
-   	{
-   	   //swap
-   	   var String_16* speicher;speicher=wordlist[lower];		   
-   	   wordlist[lower]=wordlist[upper];
-   	   wordlist[upper]=speicher;  		   
-   	}				
+      while((lower<=upper) && (this.isAboveOrEqualPivot(wordlist,lower,pivot)<=0) )
+      {         
+         lower++;         
+      }
+            
+      //scan down
+      while((upper >= lower) && (this.isAboveOrEqualPivot(wordlist,upper,pivot)>=0)  )
+      {
+         upper=upper - 1;
+      }
+            
+      if(lower < upper)
+      {
+         //swap
+         var String_16* speicher;speicher=wordlist[lower];         
+         wordlist[lower]=wordlist[upper];
+         wordlist[upper]=speicher;           
+      }            
    }
    //swap pivot   
    var String_16* temp;
@@ -602,7 +845,7 @@ void AlphabeticSorter::qsort(String_16* wordlist[],
    wordlist[lower]=temp;
          
    this.qsort(wordlist,lowerBound,lower - 1); 
-   this.qsort(wordlist,lower + 1,upperBound);
+   this.qsort(wordlist,lower+1,upperBound);
    
 }
 
@@ -630,14 +873,14 @@ int AlphabeticSorter::isAboveOrEqualPivot(String_16* liste[],int pos,String_16* 
        var AlphabeticSorter as;
        
        var int delta=as.ordinal(l.getAt(i)) - as.ordinal(pivot.getAt(i));
-       if(delta > 0){return 1;}
-       if(delta < 0){return -1;}
+       if(delta > 0){return   1;}
+       if(delta < 0){return  -1;}
    }
    var int deltaL=l.length()-pivot.length();
    if(deltaL > 0)
    {return 1;}
    if(deltaL < 0)
-   {return -1;}
+   {return  -1;}
       
    return 0;
 }
@@ -646,8 +889,7 @@ int AlphabeticSorter::isBelowOrEqualPivot(String_16* liste[],int pos,String_16* 
 {
    var int ret;
    ret=this.isAboveOrEqualPivot(liste,pos,pivot);
-   var int c = -1;
-   ret=ret*c;
+   ret=ret *  -1;
    return ret;
 }
 
@@ -666,24 +908,24 @@ void AlphabeticSorter::qsort(&int liste[],int lowerBound, int upperBound)
    while(lower<upper)
    {
         //scan up
-   	while((lower<=upper) && (this.elemAt(liste,lower)<=pivot)  )
-   	{
-   	   lower++;		   
-   	}
-   	//scan down
-   	while((upper >= lower) && (this.elemAt(liste,upper)>=pivot)  )
-   	{
-   	   upper=upper - 1;
-   	}
-   			
-   	if(lower < upper)
-   	{
-   	   //swap
-   	   var int speicher=liste[lower];		   
-   	   liste[lower]=liste[upper];
-   	   liste[upper]=speicher;  		              
-   	}				
-   	
+      while((lower<=upper) && (this.elemAt(liste,lower)<=pivot)  )
+      {
+         lower++;         
+      }
+      //scan down
+      while((upper >= lower) && (this.elemAt(liste,upper)>=pivot)  )
+      {
+         upper=upper - 1;
+      }
+            
+      if(lower < upper)
+      {
+         //swap
+         var int speicher=liste[lower];         
+         liste[lower]=liste[upper];
+         liste[upper]=speicher;                      
+      }            
+      
    }
    //swap pivot
    liste[upperBound]=liste[lower];
@@ -753,31 +995,53 @@ void AlphabeticSorter::test()
     }
 }
 
-
-
-
-
-
 longlong SystemTime::getMillisecondCounter()
 {
     var longlong ms;
-    inline_cpp[[   	 
-   	int iMilliSeconds; 
-                #ifdef WIN32_X86
-   	_timeb tSysTime;
-   	_ftime(&tSysTime); 
+    inline_cpp[[
+        int iMilliSeconds;
+                #ifdef WIN32
+        _timeb tSysTime;
+        _ftime(&tSysTime);
                 #else
-                 timeb tSysTime; 
+                 timeb tSysTime;
                  ftime(&tSysTime);
                 #endif
-   	ms = tSysTime.time; 
-   	iMilliSeconds = tSysTime.millitm; 
-   	ms *= 1000; 
-   	ms += iMilliSeconds; 		
-    ]]   
-    return ms; 
+        ms = tSysTime.time;
+        iMilliSeconds = tSysTime.millitm;
+        ms *= 1000;
+        ms += iMilliSeconds;
+    ]]
+    return ms;
 }
 
+void SystemTime::getDateTimeString(&String_16 dateTimeStringNOW)
+{
+   inline_cpp[[
+        // Get the current time
+        auto now = std::chrono::system_clock::now();
+        std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+
+        // Convert to a tm struct for formatting
+        std::tm localTime;
+        #ifdef WIN32
+           localtime_s(&localTime, &currentTime); // Windows-specific thread-safe function
+        #else
+           localtime_r(&currentTime,&localTime); 
+        #endif
+
+        // Format the time into a string
+        std::ostringstream dateTimeStream;
+        dateTimeStream << std::put_time(&localTime, "%Y_%m_%d__%H_%M_%S");
+
+        string dts = dateTimeStream.str();
+        for(int i=0; i < dts.length();i++)
+        {
+            char sp;
+            dateTimeStringNOW.append(&sp,dts.at(i));
+        }
+   ]]
+}
 
 int CommandlineArgs::numberOfArguments()
 {
@@ -793,22 +1057,30 @@ void CommandlineArgs::getArgument(int idx,&String_16 arg)
    inline_cpp[[
       if(idx>__spr_argv._theObject->_sz)
       {
+         cout << "Command Line Argument " << idx << " does not exist " << endl;
          return;
       }
       else
       {
+         arg.clear(stackStartPtr);
          arg.append(stackStartPtr,__spr_argv._theObject->_array[idx]);   
       }
    ]]
 }
 
+void CommandlineArgs::getArgument(int idx,&int arg)
+{
+    var String_16 strArg;
+    this.getArgument(idx,strArg);
+    arg = strArg.asNumber(); 
+}
 
 
 char SystemConstants::getFileSeparator()
 {
    var char c;
    inline_cpp[[
-     #ifdef WIN32_X86
+     #ifdef WIN32
      c='\\\\';
      #else
      c='/'; 
@@ -821,7 +1093,7 @@ int SystemConstants::isWindows()
 {
    var int ret=0;
    inline_cpp[[
-     #ifdef WIN32_X86 
+     #ifdef WIN32 
         ret=1;
      #endif
    ]]
@@ -839,15 +1111,14 @@ int SystemConstants::isUnix()
    return ret; 
 }
 
-
 void HexPrinter::intToHex(int x,&char out[],int startIndex)
 {
     for(var int i=0;i<8;i++)
     {
-        var int nibble=(x>>(28-i*4))&0x0f;
+        var int nibble=(x>>(28-(i*4)))&0x0f;
         if(nibble<10)
         {
-            out[i+startIndex]=cast(char,nibble + '0');
+            out[i+startIndex]=cast(char,nibble+'0');
         } 
         else
         {
@@ -884,30 +1155,12 @@ int KeyType4::getHashCode()
        var char c=_vornameNamename.getAt(i);
        code=code+c*5665+16753;
     }
-    if(code<0){code=-1*code;}
+    if(code<0){code= -1 * code;}
     return code;
 }
     
     
     
-Hashable4::Hashable4(&char vorname[],&char nachname[],
-                     &char strasse[],&char ort[])
-{
-    _Vorname.append(vorname);
-    _Nachname.append(nachname);
-    _Strasse.append(strasse);
-    _Ort.append(ort);
-}
-     
-     
-void Hashable4::getKey(&KeyType4* oKey)
-{
-    var String_16 vn;
-    vn.append(_Vorname);
-    vn.append(_Nachname);
-    oKey=new KeyType4(vn);
-}
-
 
 void MTSuperClass::threadMain()
 {
@@ -934,6 +1187,26 @@ void SystemControl::exit()
    inline_cpp[[::exit(1);]]
 }
 
+void SystemControl::uSleep(int microSeconds)
+{
+   inline_cpp[[
+      #ifdef WIN32
+          std::this_thread::sleep_for(std::chrono::microseconds(microSeconds));
+      #else
+         ::usleep(microSeconds);
+      #endif
+   ]]
+}
+
+
+void SystemControl::exitError(&char message[])
+{
+   var PrintfClass pfc;
+   pfc.fstr("An Error occured because of '$'. Stopping program").sa(message).pr();
+   inline_cpp[[::exit(-1);]]
+}
+
+
 MutexInfo::MutexInfo()
 {
 }
@@ -944,8 +1217,8 @@ Mutex::Mutex()
 {
    _mi=new MutexInfo;
    _isOwner=1;
- inline_cpp[[
-       #ifdef WIN32_X86
+   inline_cpp[[
+       #ifdef WIN32
        _win_mutex=CreateSemaphoreA(NULL,1,1,NULL);
        _mi._theObject->_win_mutex=_win_mutex;
        #endif
@@ -954,21 +1227,20 @@ Mutex::Mutex()
             pthread_mutex_init(_pmutex,NULL);
             _mi._theObject->_pmutex=_pmutex;
        #endif
- ]]
+   ]]
 }
 
 Mutex::Mutex(MutexInfo* mi)
 {
   _mi=mi;
   _isOwner=0;
-inline_cpp[[
-  #ifdef WIN32_X86
-    _win_mutex=mi._theObject->_win_mutex;
-  #endif
-  #if defined(GCC_X86) || defined(__clang__)
-    _pmutex=mi._theObject->_pmutex; 
-  #endif
-]]
+  inline_cpp[[
+     #ifdef WIN32
+       _win_mutex=mi._theObject->_win_mutex;
+     #else
+       _pmutex=mi._theObject->_pmutex; 
+     #endif
+  ]]
 }
 
 MutexInfo* Mutex::getMutexInfo(){return _mi;}
@@ -976,12 +1248,14 @@ MutexInfo* Mutex::getMutexInfo(){return _mi;}
 void Mutex::lock()
 {
 inline_cpp[[
-   #ifdef WIN32_X86
+   #ifdef WIN32
     DWORD ret=WaitForSingleObject(_win_mutex,INFINITE);
     if(ret != WAIT_OBJECT_0)
-            printf("mutex %i failed",_win_mutex);
-   #endif
-   #if defined(GCC_X86) || defined(__clang__)
+    {
+       printf("mutex %i failed\n",_win_mutex);
+       exit(-1);
+    }
+   #else  
       pthread_mutex_lock(_pmutex);
    #endif
 ]]
@@ -990,10 +1264,9 @@ inline_cpp[[
 void Mutex::unlock()
 {
 inline_cpp[[
-   #ifdef WIN32_X86s
+   #ifdef WIN32
      ReleaseSemaphore(_win_mutex,1,NULL);
-   #endif
-   #if defined(GCC_X86) || defined(__clang__)
+   #else
      pthread_mutex_unlock(_pmutex);
    #endif
 ]]
@@ -1003,23 +1276,26 @@ Mutex::~Mutex()
 {
    if(_isOwner==1)
    {
-inline_cpp[[
-   #if defined(GCC_X86) || defined(__clang__)
-    pthread_mutex_destroy(_pmutex);
-   #else
-    //DESTROY MUTEX
-   #endif
-]]
+     inline_cpp[[
+       #if defined(GCC_X86) || defined(__clang__)
+          pthread_mutex_destroy(_pmutex);
+       #else
+          CloseHandle(_win_mutex);
+       #endif
+     ]]
    }
 
 }
 
 void MutexInfo::threadMain(){}
+
 SemaphoreInfo::SemaphoreInfo()
 {
   inline_cpp[[
-       #if defined(GCC_X86) || defined(__clang__)
-         sem_init(&_sem_t,0,1); 
+       #ifdef WIN32
+         _win_sema = CreateSemaphoreA(NULL,1,1,NULL);
+       #else
+         sem_init(&_sem_t,0,1);
        #endif
   ]]
 }
@@ -1029,78 +1305,76 @@ void SemaphoreInfo::threadMain(){}
 
 Semaphore::Semaphore()
 {
-   _si=new SemaphoreInfo;
-   _isOwner=1;
- inline_cpp[[
-       #ifdef WIN32_X86
-   //_win_mutex=CreateSemaphoreA(NULL,1,1,NULL);
-       //_mi._theObject->_win_mutex=_win_mutex;
-       #endif
-       #if defined(GCC_X86) || defined(__clang__)
-         _sem_t=&(_si._theObject->_sem_t); 
-       #endif
- ]]
+     _si=new SemaphoreInfo;
+     _isOwner=1;
+     inline_cpp[[
+           #ifdef WIN32
+               _win_sema = _si._theObject->_win_sema;
+           #endif
+           #if defined(GCC_X86) || defined(__clang__)
+             _sem_t = &(_si._theObject->_sem_t);
+           #endif
+     ]]
 }
 
 Semaphore::Semaphore(SemaphoreInfo* si)
 {
-  _si=si;
-  _isOwner=0;
-inline_cpp[[
-  #ifdef WIN32_X86
-    _win_mutex=si._theObject->_win_mutex;
-  #endif
-  #if defined(GCC_X86) || defined(__clang__)
-    _sem_t=&(_si._theObject->_sem_t); 
-  #endif
-]]
+    _si=si;
+    _isOwner=0;
+    inline_cpp[[
+      #ifdef WIN32
+        _win_sema = _si._theObject->_win_sema;
+      #else
+        _sem_t = &(_si._theObject->_sem_t);
+      #endif
+    ]]
 }
 
 SemaphoreInfo* Semaphore::getSemaphoreInfo(){return _si;}
 
 void Semaphore::P()
 {
-inline_cpp[[
-       #ifdef WIN32_X86
-    DWORD ret=WaitForSingleObject(_win_mutex,INFINITE);
-    if(ret != WAIT_OBJECT_0)
-            printf("mutex %i failed",_win_mutex);
+    inline_cpp[[
+        #ifdef WIN32
+            DWORD ret=WaitForSingleObject(_win_sema,INFINITE);
+            if(ret != WAIT_OBJECT_0)
+            {
+                printf("mutex %i failed",_win_sema);
+                exit(-1);
+            }
+        #else
+            int v;
+            sem_getvalue(_sem_t,&v );
+            //printf("before P():%i\\n",v);
+            sem_wait(_sem_t);
         #endif
-        #if defined(GCC_X86) || defined(__clang__)
-           int v;
-           sem_getvalue(_sem_t,&v );
-           printf("before P():%i\\n",v);
-           sem_wait(_sem_t);
-        #endif
-]]
+    ]]
 }
    
 void Semaphore::V()
 {
-inline_cpp[[
-   #ifdef WIN32_X86s
-     ReleaseSemaphore(_win_mutex,1,NULL);
-   #endif
-   #if defined(GCC_X86) || defined(__clang__)
-      sem_post(_sem_t);
-   #endif
-]]
+    inline_cpp[[
+       #ifdef WIN32
+         ReleaseSemaphore(_win_sema,1,NULL);
+       #else
+          sem_post(_sem_t);
+       #endif
+    ]]
 }
 
 Semaphore::~Semaphore()
 {
    if(_isOwner==1)
    {
-inline_cpp[[
-   #if defined(GCC_X86) || defined(__clang__)
-       sem_destroy(&_si._theObject->_sem_t);
-   #else
-    //DESTROY MUTEX
-   #endif
-]] 
+        inline_cpp[[
+           #ifdef WIN32
+              CloseHandle(_win_sema);
+           #else
+             sem_destroy(&_si._theObject->_sem_t);
+           #endif
+        ]]
    }
 }
-
 
 
 void Input::getString(&String_16 str)
@@ -1134,15 +1408,19 @@ AlphaEntry::AlphaEntry(){}
 void Benutzer_Umschalter::schalteNach(int benutzer,int gruppe)
 {
    inline_cpp[[
-      //dieses Unterprogramm wird nur auf POSIX-aehnlichen Rechnern arbeiten
-      if( setgid(gruppe) != 0)
-      {
-         perror("Benutzer_Umschalter::schalteNach() Gruppe fehlgeschlagen. Sicherheitsrisiko ?");
-      } 
-      if( setuid(benutzer) != 0)
-      {
-         perror("Benutzer_Umschalter::schalteNach() Benutzer fehlgeschlagen. Sicherheitsrisiko ?");
-      } 
+      #ifdef WIN32
+        cout << "BenutzerUmschalter funktioniert auf Windows nicht" << endl; 
+      #else
+         //dieses Unterprogramm wird nur auf POSIX-aehnlichen Rechnern arbeiten
+         if( setgid(gruppe) != 0)
+         {
+            perror("Benutzer_Umschalter::schalteNach() Gruppe fehlgeschlagen. Sicherheitsrisiko ?");
+         } 
+         if( setuid(benutzer) != 0)
+         {
+            perror("Benutzer_Umschalter::schalteNach() Benutzer fehlgeschlagen. Sicherheitsrisiko ?");
+         } 
+      #endif
    ]]
 }
 
@@ -1167,3 +1445,4 @@ void Benutzer_Umschalter::UnitTest()
      pfc.fstr("Benutzer_Umschalter::UnitTest() Fehler 2").pr();
    }
 }
+
