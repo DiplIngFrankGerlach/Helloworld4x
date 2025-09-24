@@ -685,31 +685,6 @@ void SPRFile::UnitTest()
 }
 
 
-Logfile::Logfile(&String_16 filename)
-{
-   this.oeffne(filename,SF_ReadWriteTruncated);
-   writePos = 0;
-   buffer = new char[100];
-}
-
-int Logfile::append(&String_16 traceMessage)
-{
-    var int l = traceMessage.length();
-    if(buffer.sz < l)
-    {
-       buffer = new char[l];
-    }
-    for(var int i=0; i < l; i++)
-    {
-       buffer[i] = traceMessage.getAt(i);
-    }
-    
-    var int ret =  this.write(writePos,l,buffer);
-    writePos = writePos + l;
-
-    return ret;
-}
-   
    
    
 AlphabeticSorter::AlphabeticSorter()

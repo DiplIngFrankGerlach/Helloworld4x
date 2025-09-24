@@ -27,7 +27,7 @@ my %fingerprints;
 while (my $line = <$fh>) {
     chomp $line;  # Remove the newline character
 
-    if ( $line =~ /^(\S+) [*](\S+)/ ) 
+    if ( $line =~ /^(\S+)\W+\*?(\S+)/ ) 
     {
        #printf("$1 $2\n");
 
@@ -52,7 +52,7 @@ my %fingerprintsCache;
 while (my $line = <$fhc>) {
     chomp $line;  # Remove the newline character
 
-    if ( $line =~ /^(\S+) [*]cache\/(\S+)/ ) 
+    if ( $line =~ /^(\S+)\W+\*?cache\/(\S+)/ ) 
     {
        #printf("Cache $1 $2\n");
        my $file = $2;

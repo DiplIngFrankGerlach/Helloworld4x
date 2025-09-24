@@ -8,7 +8,9 @@ Import
 int Main::main()
 { 
    var PrintfClass pfc;
-   pfc.fstr("Hello World !").pr();
+
+   pfc.fstr("Hello World").pr();
 
    return 1;
 }
+

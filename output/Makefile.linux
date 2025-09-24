@@ -58,7 +58,7 @@ System.o \
 ZKNuetzlich.o \
 
 CC = gcc
-HOMEDIR=/home/bjafrge
+HOMEDIR=/home/frank
 SPRDIR=${HOMEDIR}/Sappeur4x/ausg/haupt/
 VPATH=${SPRDIR}/cppMapping:../
 

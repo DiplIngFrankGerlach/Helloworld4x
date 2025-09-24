@@ -53,7 +53,6 @@ compile Strings.ai
 
 compile ZKNuetzlich.ai
 
-compile Hashtables.ai
 
 
 

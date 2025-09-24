@@ -138,15 +138,6 @@ methods:
    static void UnitTest();
 };
 
-class Logfile extends SPRFile
-{
-    int writePos;
-    *char buffer[];
-methods:
-    Logfile(&String_16 filename);
-    int append(&String_16 traceMessage);
-};
-
 
 class ThreadLocalStorageList{
    inline_cpp[[
