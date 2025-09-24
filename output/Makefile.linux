@@ -11,11 +11,9 @@ mapping.o \
 AppMain.o \
 determineStackMemoryNeeds.o \
 determStackMemory_AppMain.ai.o \
-determStackMemory_Hashtables.ai.o \
 determStackMemory_Strings.ai.o \
 determStackMemory_System.ai.o \
 determStackMemory_ZKNuetzlich.ai.o \
-Hashtables.o \
 placementNewClass_AlphabeticSorter.o \
 placementNewClass_AlphaEntry.o \
 placementNewClass_Assigner_String_128.o \
@@ -24,10 +22,6 @@ placementNewClass_Benutzer_Umschalter.o \
 placementNewClass_CommandlineArgs.o \
 placementNewClass_Compare_String_128.o \
 placementNewClass_Compare_String_16.o \
-placementNewClass_Hashable4.o \
-placementNewClass_Hash_String_128.o \
-placementNewClass_Hash_String_16.o \
-placementNewClass_Hashtable4_Hashable4_KeyType4.o \
 placementNewClass_HexPrinter.o \
 placementNewClass_Input.o \
 placementNewClass_KeyType4.o \
@@ -47,7 +41,6 @@ placementNewClass_String_16.o \
 placementNewClass_SystemConstants.o \
 placementNewClass_SystemControl.o \
 placementNewClass_SystemTime.o \
-placementNewClass_test556661.o \
 placementNewClass_ThreadInfo.o \
 placementNewClass_ThreadLocalStorage.o \
 placementNewClass_ThreadLocalStorageEntry.o \
