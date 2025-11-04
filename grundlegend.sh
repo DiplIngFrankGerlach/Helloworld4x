@@ -24,7 +24,7 @@ compile()
 ########################################################
 compileBG()
 {
-    ${SPR_VERZ}/compiler/SPRcomp $1 -outputPath output -operatingSystem Linux -sappeurDirectory ${SPR_VERZ} &
+    ${SPR_VERZ}/SPRcomp $1 -outputPath output -operatingSystem Linux -sappeurDirectory ${SPR_VERZ} &
 }
 
 ######################################################
@@ -68,13 +68,15 @@ killCoordinator()
       if [[ $pid =~ ^[0-9]+$ ]]; then #if pid valid
          kill $pid
       fi 
-   elif [[ "$OS" == "CYGWIN"* ]]; then
+   fi
+   if [[ "$OS" == "CYGWIN"* ]]; then
       pid=`ps -ef|egrep SPRCoordinator|egrep $USER|egrep -v grep|sed 's/ \+/ /g'|cut -d " " -f3`
       if [[ $pid =~ ^[0-9]+$ ]]; then  #if pid valid
          kill $pid
       fi 
-   else
-       echo "The operating system is not recognized."
+   fi
+   if [[ "$OS" == "Darwin" ]]; then
+      ps -ef|egrep SPRCoordinator|egrep $USER|egrep -v grep|cut -c6-14|xargs -n1 kill
    fi
 }
 

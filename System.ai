@@ -466,7 +466,7 @@ int SPRFile::write64(longlong pos,int count,&char buffer[])
    var int ret;
    var int oktetsGeschrieben = 0;
    inline_cpp[[
-     #if defined(__CYGWIN__) || defined(WIN32)
+     #ifndef __linux__ 
         cerr << "SPRFile::write64() not supported on cygwin or windows" << endl;
         exit(-1);
      #else
