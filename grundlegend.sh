@@ -16,7 +16,7 @@
 compile()
 {
     echo $1
-    ${SPR_VERZ}/compiler/SPRcomp $1 -outputPath output -operatingSystem Linux -sappeurDirectory ${SPR_VERZ} 
+    ${SPR_VERZ}/SPRcomp $1 -outputPath output -operatingSystem Linux -sappeurDirectory ${SPR_VERZ} 
 }
 
 ########################################################
@@ -86,7 +86,7 @@ killCoordinator
 # Beende den Sappeur Coordinator und starte neu
 ###############################################
 
-${SPR_VERZ}/compiler/SPRCoordinator &
+${SPR_VERZ}/SPRCoordinator &
 
 
 ###################################################################################################################
