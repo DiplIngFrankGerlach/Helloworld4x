@@ -24,9 +24,6 @@
     <ClCompile Include="..\determStackMemory_AppMain.ai.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\determStackMemory_Hashtables.ai.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="..\determStackMemory_Strings.ai.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -34,9 +31,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\determStackMemory_ZKNuetzlich.ai.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Hashtables.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\placementNewClass_AlphabeticSorter.cpp">
@@ -153,16 +147,16 @@
     <ClCompile Include="..\ZKNuetzlich.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Sappeur_4.14\cppMapping\main.cpp">
+    <ClCompile Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Sappeur_4.14\cppMapping\mapping.cpp">
+    <ClCompile Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\mapping.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Sappeur_4.14\cppMapping\stadafx.cpp">
+    <ClCompile Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\stadafx.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Sappeur_4.14\cppMapping\suchoi.cpp">
+    <ClCompile Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\suchoi.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -175,12 +169,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\header_AppMain.ai.h">
-      <Filter>Quelldateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\header_Hashtables.ai.h">
-      <Filter>Quelldateien</Filter>
-    </ClInclude>
     <ClInclude Include="..\header_Strings.ai.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
@@ -221,6 +209,18 @@
       <Filter>Quelldateien</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\Sappeur_4.14\cppMapping\targetver.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\mapping.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\sappeur_config.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\stdafx.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\targetver.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
   </ItemGroup>
