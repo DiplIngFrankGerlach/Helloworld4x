@@ -15,7 +15,7 @@
 ###################################################################################################################
 # Setze das Sappeur Verzeichnis
 ###############################
-export SPR_VERZ=c:/Programs/SappeurWindows_4.18
+export SPR_VERZ=c:/ttt/SappeurWindows_4.18
 
 
 

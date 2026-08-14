@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Quelldateien\SappeurGrundlage">
+      <UniqueIdentifier>{7109480e-3ae7-49d7-8133-42245406e9a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AppMain.cpp">
@@ -31,9 +34,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\determStackMemory_ZKNuetzlich.ai.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\placementNewClass_AlphabeticSorter.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\placementNewClass_AlphaEntry.cpp">
@@ -147,16 +147,19 @@
     <ClCompile Include="..\ZKNuetzlich.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\main.cpp">
-      <Filter>Quelldateien</Filter>
+    <ClCompile Include="..\..\..\SappeurWindows_4.18\cppMapping\main.cpp">
+      <Filter>Quelldateien\SappeurGrundlage</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\mapping.cpp">
-      <Filter>Quelldateien</Filter>
+    <ClCompile Include="..\..\..\SappeurWindows_4.18\cppMapping\mapping.cpp">
+      <Filter>Quelldateien\SappeurGrundlage</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\stadafx.cpp">
-      <Filter>Quelldateien</Filter>
+    <ClCompile Include="..\..\..\SappeurWindows_4.18\cppMapping\stadafx.cpp">
+      <Filter>Quelldateien\SappeurGrundlage</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\suchoi.cpp">
+    <ClCompile Include="..\..\..\SappeurWindows_4.18\cppMapping\suchoi.cpp">
+      <Filter>Quelldateien\SappeurGrundlage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\placementNewClass_AlphabeticSorter.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -199,9 +202,6 @@
     <ClInclude Include="..\..\ProjektIncludes.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\Sappeur_4.14\cppMapping\mapping.h">
-      <Filter>Quelldateien</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\Sappeur_4.14\cppMapping\sappeur_config.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
@@ -209,9 +209,6 @@
       <Filter>Quelldateien</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\Sappeur_4.14\cppMapping\targetver.h">
-      <Filter>Quelldateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\mapping.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\sappeur_config.h">
@@ -222,6 +219,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\targetver.h">
       <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SappeurWindows_4.18\cppMapping\mapping.h">
+      <Filter>Quelldateien\SappeurGrundlage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SappeurWindows_4.18\cppMapping\sappeur_config.h">
+      <Filter>Quelldateien\SappeurGrundlage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SappeurWindows_4.18\cppMapping\stdafx.h">
+      <Filter>Quelldateien\SappeurGrundlage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SappeurWindows_4.18\cppMapping\targetver.h">
+      <Filter>Quelldateien\SappeurGrundlage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

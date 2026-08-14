@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\main.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\mapping.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\stadafx.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\suchoi.cpp" />
+    <ClCompile Include="..\..\..\SappeurWindows_4.18\cppMapping\main.cpp" />
+    <ClCompile Include="..\..\..\SappeurWindows_4.18\cppMapping\mapping.cpp" />
+    <ClCompile Include="..\..\..\SappeurWindows_4.18\cppMapping\stadafx.cpp" />
+    <ClCompile Include="..\..\..\SappeurWindows_4.18\cppMapping\suchoi.cpp" />
     <ClCompile Include="..\AppMain.cpp" />
     <ClCompile Include="..\determineStackMemoryNeeds.cpp" />
     <ClCompile Include="..\determStackMemory_AppMain.ai.cpp" />
@@ -73,14 +73,16 @@
     <None Include="..\Makefile.linux" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\mapping.h" />
     <ClInclude Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\sappeur_config.h" />
     <ClInclude Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\stdafx.h" />
     <ClInclude Include="..\..\..\..\..\..\Programs\SappeurWindows_4.18\cppMapping\targetver.h" />
-    <ClInclude Include="..\..\..\..\..\..\Sappeur_4.14\cppMapping\mapping.h" />
     <ClInclude Include="..\..\..\..\..\..\Sappeur_4.14\cppMapping\sappeur_config.h" />
     <ClInclude Include="..\..\..\..\..\..\Sappeur_4.14\cppMapping\stdafx.h" />
     <ClInclude Include="..\..\..\..\..\..\Sappeur_4.14\cppMapping\targetver.h" />
+    <ClInclude Include="..\..\..\SappeurWindows_4.18\cppMapping\mapping.h" />
+    <ClInclude Include="..\..\..\SappeurWindows_4.18\cppMapping\sappeur_config.h" />
+    <ClInclude Include="..\..\..\SappeurWindows_4.18\cppMapping\stdafx.h" />
+    <ClInclude Include="..\..\..\SappeurWindows_4.18\cppMapping\targetver.h" />
     <ClInclude Include="..\..\ProjektIncludes.h" />
     <ClInclude Include="..\header_Strings.ai.h" />
     <ClInclude Include="..\header_System.ai.h" />
@@ -176,7 +178,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;WIN32_X86;_CRT_SECURE_NO_WARNINGS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..;$(ProjectDir)\..;c:\Programs\SappeurWindows_4.18\cppMapping;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..;$(ProjectDir)\..;c:\ttt\SappeurWindows_4.18\cppMapping;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
