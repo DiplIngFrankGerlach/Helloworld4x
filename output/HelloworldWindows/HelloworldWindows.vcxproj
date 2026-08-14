@@ -194,6 +194,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;WIN32_X86;_CRT_SECURE_NO_WARNINGS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\..;$(ProjectDir)\..;c:\Programs\SappeurWindows_4.18\cppMapping;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
