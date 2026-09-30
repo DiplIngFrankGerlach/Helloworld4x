@@ -15,7 +15,8 @@
 ###################################################################################################################
 # Setze das Sappeur Verzeichnis
 ###############################
-export SPR_VERZ=~/Sappeur4x/ausg/haupt
+#ADAPT TO INSTALLATION
+export SPR_VERZ=~/Sappeur_4.16
 
 
 
@@ -27,7 +28,7 @@ source "grundlegend.sh"
 # Beende den Sappeur Coordinator und starte neu
 ###############################################
 
-#${SPR_VERZ}/compiler/SPRCoordinator &
+#${SPR_VERZ}/SPRCoordinator &
 
 
 

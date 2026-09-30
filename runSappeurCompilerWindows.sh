@@ -15,7 +15,7 @@
 ###################################################################################################################
 # Setze das Sappeur Verzeichnis
 ###############################
-export SPR_VERZ=c:/Sappeur_4.14
+export SPR_VERZ=c:/ttt/SappeurWindows_4.18
 
 
 
@@ -27,7 +27,7 @@ source "grundlegendWindows.sh"
 # Beende den Sappeur Coordinator und starte neu
 ###############################################
 
-#${SPR_VERZ}/compiler/SPRCoordinator &
+#${SPR_VERZ}/SPRCoordinator &
 
 
 
@@ -53,7 +53,6 @@ compile Strings.ai
 
 compile ZKNuetzlich.ai
 
-compile Hashtables.ai
 
 
 
