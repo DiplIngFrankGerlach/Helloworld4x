@@ -2,6 +2,7 @@ Import
 {
   "Strings.ad",
   "System.ad",
+  "ZufallsQuelle.ad",
   "AppMain.ad"
 }
 
@@ -9,7 +10,75 @@ int Main::main()
 { 
    var PrintfClass pfc;
 
-   pfc.fstr("Hello World").pr();
+   //ZehnerUebergaenge
+   /*
+   for(var int i=2; i <= 9; i++)
+   {
+      var int r;
+      var int summe;
+      do {
+         inline_cpp[[
+           r = rand();
+         ]]      
+         if (r < 0) { r = r * -1; }
+         r = r % 10;
+         summe = i + r;
+         if(summe > 10)
+         { 
+            var int rest = summe - 10;
+            var int bis10 = 10 - i;
+            pfc.fstr("$+$=$+$+$=$").sa(i).sa(r).sa(i).sa(bis10).sa(rest).sa(summe).pr();
+         }
+      }
+      while( summe < 10);
+   }
+
+   for(var int i=0; i <= 200;i++)
+   {
+      for(var int j=0; j <= 200;j++)
+      {
+        var int produkt = i*j;
+        pfc.fstr("$*$=$").sa(i).sa(j).sa(produkt).pr();
+      }
+   }
+   */
+
+
+   var ZufallsQuelle zq;
+   var char puffer[4];
+
+   zq.gebe(puffer,4);
+
+   var int r = 0;
+   for(var int i=0; i < 4; i++)
+   { 
+     r = r + cast(int,puffer[i]); 
+   }
+   
+
+
+   if(r < 0) { r = r * -1; }
+
+   r = r % 1000;
+
+   var int t = -1;
+
+   var Input input;
+
+   while ( r != t )
+   {
+     pfc.fstr("Rate die Zahl von 0 bis 999").pr();
+     var String_16 ts;
+     input.getString(ts);
+     t = ts.asNumber();
+     if( t  < r)
+     { pfc.fstr("zu klein").pr(); }
+     if( t  > r)
+     { pfc.fstr("zu gross").pr(); }
+     if( t  == r)
+     { pfc.fstr("Richtig !").pr(); }
+     
+   }
 
    return 1;
 }

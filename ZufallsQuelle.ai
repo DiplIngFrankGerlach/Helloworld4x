@@ -1,0 +1,47 @@
+Import { "ZufallsQuelle.ad" }
+
+int ZufallsQuelle::gebe(&char puffer[],int n)
+{
+    if(n > puffer.sz) { return -1; }
+inline_cpp[[
+    #ifdef WIN32
+
+       // Use the system-preferred RNG
+       NTSTATUS status = BCryptGenRandom(
+           nullptr,                          // Use default RNG algorithm
+           (unsigned char*) puffer._array, // Output buffer
+           n,            // Size of buffer
+           BCRYPT_USE_SYSTEM_PREFERRED_RNG  // Use system-preferred RNG
+       );
+
+       if (status == 0) 
+       {  return 1; } 
+       else { return -2; }
+
+    #else
+       const char* random_dev = "/dev/urandom";
+       const int num_bytes = 32; // 256 bits
+       char buffer[num_bytes];
+
+       // Open /dev/urandom
+       ifstream urandom(random_dev, ios::in|ios::binary);
+       if (!urandom) 
+       {
+           cerr << "Konnte keine Zufallszahlen aus /dev/urandom lesen" << endl;
+           return -1;
+       }
+
+       // Read num_bytes octets from /dev/urandom into buffer
+       urandom.read(puffer._array, num_bytes);
+
+       // Close /dev/urandom
+       urandom.close();
+       char stackPtr;
+    #endif
+]]
+   return -3;
+}
+
+
+
+

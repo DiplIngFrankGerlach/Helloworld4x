@@ -1,0 +1,26 @@
+
+
+CC = gcc
+HOMEDIR=/Users/fg
+SPRDIR=${HOMEDIR}/Sappeur4x/ausg/haupt/
+VPATH=${SPRDIR}/cppMapping:../
+
+INCLUDE= -I${SPRDIR}/cppMapping -I. -I..  -I/usr/include
+
+
+
+LDLIBS=-lstdc++ -lm  -std=c++17 
+.SUFFIXES: .o .cpp .ai
+OPT=-g 
+MISC_OPT=-DSPR_USE_PTHREAD_MUTEX_LOCKS=1 -DLINUX_SAPPEUR=1 -DSPR_DEBUG=1 -DSPR_PTHREAD=1 -pthread
+
+.cpp.o:
+	$(CC) $(OPT) $(MISC_OPT) -DGCC_X86 $(INCLUDE) -c $<
+
+
+
+all:$(OBJECTS)
+	$(CC) $(OPT) $(MISC_OPT) -o AI_Sappeur_Test $^ $(LDLIBS)
+	
+clean:
+	rm *.o AI_Sappeur_Test

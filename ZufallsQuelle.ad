@@ -1,0 +1,8 @@
+
+/* eine vom BS unabhängige Zufallszahlenquelle */
+
+class ZufallsQuelle
+{
+methods:
+    int gebe(&char puffer[],int n);
+};
