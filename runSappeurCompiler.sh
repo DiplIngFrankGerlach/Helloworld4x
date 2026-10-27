@@ -16,7 +16,7 @@
 # Setze das Sappeur Verzeichnis
 ###############################
 #ADAPT TO INSTALLATION
-export SPR_VERZ=~/Sappeur_4.16
+export SPR_VERZ=~/Sappeur_4.18
 
 
 
