@@ -34,7 +34,6 @@ placementNewClass_MTSuperClass.o \
 placementNewClass_MultiThreadAdmin.o \
 placementNewClass_Mutex.o \
 placementNewClass_MutexInfo.o \
-placementNewClass_MyMath.o \
 placementNewClass_NullPtrClassSappeurInternal.o \
 placementNewClass_PrintfClass.o \
 placementNewClass_Semaphore.o \
@@ -61,7 +60,7 @@ CC = gcc
 #ADAPT TO INSTALLATION
 HOMEDIR=/home/frank/
 #ADAPT TO INSTALLATION
-SPRDIR=${HOMEDIR}/Sappeur_4.16
+SPRDIR=${HOMEDIR}/Sappeur_4.18
 VPATH=${SPRDIR}/cppMapping:../
 
 INCLUDE= -I${SPRDIR}/cppMapping -I. -I..  -I/usr/include
